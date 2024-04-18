@@ -9,9 +9,17 @@ Route::get('/', function () {
 });
 
 Route::get('/admin/login',[AdminLoginController::class,'index'])->name('admin.login');
-
 Route::post('/admin/authenticate',[AdminLoginController::class,'authenticate'])->name('admin.authenticate');
 
+Route::group(['prefix' => 'admin'],function()
+{
+    Route::group(['middleware' => 'admin.guest'],function()
+    {});
+    Route::group(['middleware' => 'admin.auth'],function()
+    {
+
+    });
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
